@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управління користувачем</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/styles/styles.css">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="main.html">Управління</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://127.0.0.1:8000/manage-user-memberships">Користувач</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="view_user_memberships.html">Підписки</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://127.0.0.1:8000/check-in-check-out">check-in check-out</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="register_user_pure_js.html">Зареєструвати користувача</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="view_users_pure_js.html">Всі користувачі</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+<div class="container mt-5">
+    <h1 class="mb-4">Користувач</h1>
+    <form method="post" class="mb-4">
+        {% csrf_token %}
+        <div class="form-group">
+            {% comment %} {{ form }} {% endcomment %}
+            {{ form|crispy }}
+            <input type="submit" value="Отримати дані користувача" class="btn btn-primary" name="submit_button">
+        </div>
+    </form>
+
+    {% if user_data %}
+        <div class="card card-body">
+            <h2 class="card-title">Деталі</h2>
+            <p class="card-text">ID: {{ user_data.id }}</p>
+            <p class="card-text">Повне ім'я: {{ user_data.full_name }}</p>
+            <p class="card-text">Електронна пошта: {{ user_data.email }}</p>
+            <p class="card-text">Стан:
+                <span class="badge {% if user_data.is_blocked %}badge-danger{% else %}badge-success{% endif %}">
+                        {% if user_data.is_blocked %}заблокований{% else %}не заблокований{% endif %}
+                    </span>
+            </p>
+
+            <h3 class="mt-3">Активні підписки</h3>
+            {% if user_memberships %}
+            <ul class="list-group mb-4">
+                {% for membership in user_memberships %}
+                    <li class="list-group-item">
+                        {{ membership.membership_type.name }} 
+                        <br>Термін дії: {{ membership.start_date|date:"d.m.Y" }} - {{ membership.end_date|date:"d.m.Y" }}
+                        <br>Графік: {{ membership.membership_type.start_time|time:"H:i" }}
+                        - {{ membership.membership_type.end_time|time:"H:i" }}
+                        
+                    </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+                <p class="text-muted">Немає підписок</p>
+            {% endif %}
+
+            <h3 class="mt-3">Історія підписок</h3>
+            {% if all_user_memberships %}
+                <ul class="list-group mb-4">
+                    {% for membership in all_user_memberships %}
+                        <li class="list-group-item">
+                            {{ membership.membership_type.name }} ({{ membership.start_date|date:"d.m.Y" }} - {{ membership.end_date|date:"d.m.Y" }})
+                            <br>Графік: {{ membership.membership_type.start_time|time:"H:i" }}
+                            - {{ membership.membership_type.end_time|time:"H:i" }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted">Історія підписок відсутня</p>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+            <h2 class="alert-heading">Увага!</h2>
+            <p>Введіть у поле ID клієнта, що існує.</p>
+        </div>
+    {% endif %}
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

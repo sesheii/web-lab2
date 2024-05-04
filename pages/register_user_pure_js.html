@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Реєстрація користувача</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/styles/styles.css">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="main.html">Управління</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://127.0.0.1:8000/manage-user-memberships">Користувач</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="view_user_memberships.html">Підписки</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://127.0.0.1:8000/check-in-check-out">check-in check-out</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="register_user_pure_js.html">Зареєструвати користувача</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="view_users_pure_js.html">Всі користувачі</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <h1 class="mb-4">Зареєструвати нового користувача</h1>
+        <form id="registrationForm" class="needs-validation" novalidate>
+            <div class="form-group">
+                <label for="full_name">Full Name:</label>
+                <input type="text" class="form-control" id="full_name" required>
+                <div class="invalid-feedback">
+                    Please enter your full name.
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" required>
+                <div class="invalid-feedback">
+                    Please enter a valid email address.
+                </div>
+            </div>
+            <div class="form-group margin-left-10">
+                <input type="checkbox" class="form-check-input" id="is_blocked">
+                <label for="is_blocked">Is Blocked:</label>
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Зареєструвати</button>
+        </form>
+    </div>
+
+    <script src="../scripts/register_user.js"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
